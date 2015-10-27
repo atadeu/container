@@ -1,0 +1,18 @@
+SELECT COUNT(*) FROM 
+	(SELECT  ROW_NUMBER() OVER (ORDER BY NUMERO) AS VAGA, MATRICULA, NUMERO FROM CAMBIOS 
+		WHERE CAMBIO = @P_CAMBIO AND CHAMADA = 1 AND NUMERO >= @P_NUMERO ) AS TABELA WHERE VAGA BETWEEN 1 AND @P_VAGAS AND MATRICULA = @MATRICULA
+
+SELECT * FROM CAMBIOS
+
+-- define o tpa da vez
+select CAMBIO, NUMERO, matricula 
+From agulhado where data = '2015-10-01' and parede = 1 and CHAMADA = 1 and CAMBIO  in (select f.CAMBIO
+From REQUISICAO r
+join REQFUNCAO rf on rf.REQUISICAO = r.REQUISICAO
+join funcao f on f.FUNCAO = rf.funcao
+where r.DIA = '2015-10-01' 
+  and r.PERIODO = 1
+  and r.CANCELADO =0
+  and rf.VISUALIZAQUADRO = 1
+  and f.CATEGORIA in (24,28,43)
+group by f.cambio)
